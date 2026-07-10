@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SOVEREIGN COMMAND HUB · 04901</title>
+  <style>
+    :root {
+      --bg: #05080a;
+      --panel: #0a1210;
+      --border: #1a3d2e;
+      --green: #00ff88;
+      --dim: #5a8f72;
+      --cyan: #00e5ff;
+      --amber: #ffb020;
+      --red: #ff4466;
+      --text: #c8f0d8;
+      --muted: #6a9a80;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      background: radial-gradient(ellipse at 20% 0%, #0c1a14 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100dvh;
+      padding: 16px;
+      line-height: 1.45;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: 1.15rem;
+      letter-spacing: 0.12em;
+      color: var(--green);
+      text-transform: uppercase;
+    }
+    .sub { color: var(--muted); font-size: 0.78rem; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      color: var(--dim);
+      margin-left: auto;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+    }
+    .dot.live { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .dot.down { background: var(--red); box-shadow: 0 0 8px var(--red); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px rgba(0,255,136,0.15);
+    }
+    .card h2 {
+      font-size: 0.85rem;
+      color: var(--cyan);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .card p { font-size: 0.75rem; color: var(--muted); flex: 1; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.68rem;
+    }
+    .tag {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: var(--dim);
+    }
+    .tag.ok { color: var(--green); border-color: #1a5c3a; }
+    .tag.warn { color: var(--amber); border-color: #5c4a1a; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    a.btn, button.btn {
+      appearance: none;
+      border: 1px solid var(--green);
+      background: transparent;
+      color: var(--green);
+      font: inherit;
+      font-size: 0.72rem;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    a.btn:hover, button.btn:hover {
+      background: rgba(0,255,136,0.12);
+    }
+    a.btn.secondary {
+      border-color: var(--dim);
+      color: var(--dim);
+    }
+    a.btn.primary {
+      background: rgba(0,255,136,0.12);
+      font-weight: 600;
+    }
+
+    section { margin-bottom: 22px; }
+    section > h3 {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .launch-box {
+      background: linear-gradient(135deg, #0c1f18, #0a1210);
+      border: 1px solid var(--green);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    .launch-box h2 {
+      color: var(--green);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      letter-spacing: 0.08em;
+    }
+    .launch-box code {
+      display: block;
+      background: #040606;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      color: var(--cyan);
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+    .ports {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .port {
+      font-size: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      min-width: 110px;
+    }
+    .port strong { color: var(--text); display: block; }
+    footer {
+      margin-top: 28px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Sovereign Command Hub</h1>
+      <div class="sub">04901 · Waterville · WSDS · Blueprint v5 · One dashboard for the whole stack</div>
+    </div>
+    <div class="pill"><span class="dot" id="hub-dot"></span> <span id="hub-status">Probing ports…</span></div>
+  </header>
+
+  <div class="launch-box">
+    <h2>Primary launch (Earth Engine UI)</h2>
+    <p class="sub">This is the live global ISR / defense map. Command Hub is the index; Earth Engine is the operator console.</p>
+    <code>bash ~/projects/sovereign-engine/start-earth.sh</code>
+    <code># daemon mode:  bash ~/projects/sovereign-engine/start-earth.sh --daemon</code>
+    <div class="actions">
+      <a class="btn primary" href="http://localhost:5173" target="_blank" rel="noopener">Open Earth Dashboard :5173</a>
+      <a class="btn secondary" href="http://localhost:5173" target="_blank" rel="noopener">Maine / 207 view (in-app)</a>
+    </div>
+    <div class="ports" id="port-status"></div>
+  </div>
+
+  <section>
+    <h3>Core platforms</h3>
+    <div class="grid" id="core-grid"></div>
+  </section>
+
+  <section>
+    <h3>Support · narrative · voice · tools</h3>
+    <div class="grid" id="support-grid"></div>
+  </section>
+
+  <section>
+    <h3>GitHub · license · push</h3>
+    <div class="launch-box">
+      <h2>MIT license every repo + push</h2>
+      <p class="sub">One-time login, then license + push the full stack.</p>
+      <code>gh auth login</code>
+      <code>bash ~/projects/sovereign-engine/license-github.sh --status</code>
+      <code>bash ~/projects/sovereign-engine/license-github.sh --license-only</code>
+      <code>bash ~/projects/sovereign-engine/license-github.sh --push-only</code>
+      <div class="actions">
+        <a class="btn secondary" href="https://github.com/keithdickey207" target="_blank" rel="noopener">github.com/keithdickey207</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Copyright © 2026 Keith Alan Dickey · Waterville Software Development Services (WSDS) / 04901 Studio · MIT on all stack repos ·
+    Stack index: ~/projects/SOVEREIGN_EARTH_ENGINE.md
+  </footer>
+
+  <script>
+    const PORTS = [
+      { port: 5173, label: "Earth UI" },
+      { port: 8765, label: "WS Bridge" },
+      { port: 5090, label: "Command Hub" },
+      { port: 11434, label: "Ollama" },
+      { port: 2368, label: "GNSS" },
+      { port: 2372, label: "Defense" },
+    ];
+
+    const CORE = [
+      {
+        name: "Sovereign Earth Engine",
+        role: "React global command map + start-earth launcher",
+        path: "~/projects/sovereign-engine",
+        license: true,
+        github: "https://github.com/keithdickey207/sovereign-engine",
+        open: "http://localhost:5173",
+        status: "LIVE",
+      },
+      {
+        name: "Sovereign Earth (core)",
+        role: "ISR, neural mesh, AI ops, domains, mesh bus",
+        path: "~/projects/sovereign-earth",
+        license: true,
+        github: "https://github.com/keithdickey207/Sovereign-Earth-Engine-Platform",
+        open: null,
+        status: "LIVE",
+      },
+      {
+        name: "District 04901 Grid",
+        role: "WebSocket bridge, disaster sim, geo configs",
+        path: "~/projects/district_04901_grid",
+        license: true,
+        github: "https://github.com/keithdickey207/District_04901_Grid",
+        open: null,
+        status: "LIVE",
+      },
+      {
+        name: "Sovereign Defense",
+        role: "DEFCON + air defense",
+        path: "~/projects/sovereign-defense",
+        license: true,
+        github: "https://github.com/keithdickey207/sovereign-defense",
+        open: null,
+        status: "LIVE",
+      },
+      {
+        name: "GNS · Galactic Nav",
+        role: "Ephemeris, nav engine, cinema, Pixel GNSS",
+        path: "~/open-source-galactic-flight-and-time-navigation-system-with-AI-",
+        license: true,
+        github: "https://github.com/keithdickey207/open-source-galactic-flight-and-time-navigation-system-with-AI-",
+        open: null,
+        status: "LIVE",
+      },
+      {
+        name: "Demographic Engine",
+        role: "Entity resolve, Ollama agents, custom spatial",
+        path: "~/projects/sovereign-demographic-engine",
+        license: true,
+        github: "https://github.com/keithdickey207/sovereign-demographic-engine",
+        open: null,
+        status: "LIVE",
+      },
+      {
+        name: "Aether",
+        role: "Medical core, RF paint, Aether Bridge (Godot)",
+        path: "~/projects/aether",
+        license: true,
+        github: "https://github.com/keithdickey207/aether",
+        open: null,
+        status: "STARTER",
+      },
+      {
+        name: "04901 Sentinel",
+        role: "LEO tracker, RTL-SDR, phone shipper",
+        path: "~/projects/04901-sentinel",
+        license: true,
+        github: "https://github.com/keithdickey207/04901-sentinel",
+        open: null,
+        status: "SUPPORT",
+      },
+      {
+        name: "04901 Digital Twin",
+        role: "Godot spatial twin (legacy demography path)",
+        path: "~/projects/04901-digital-twin",
+        license: true,
+        github: "https://github.com/keithdickey207/04901-digital-twin",
+        open: null,
+        status: "LEGACY",
+      },
+    ];
+
+    const SUPPORT = [
+      {
+        name: "Narrative Engine",
+        role: "Biography / book pipeline, PDF export",
+        path: "~/sovereign_narrative_engine",
+        license: true,
+        github: "https://github.com/keithdickey207/sovereign-narrative-engine",
+        open: null,
+        status: "LIVE",
+      },
+      {
+        name: "Sovereign Voice",
+        role: "OVOS / Mycroft local voice stack",
+        path: "~/sovereign_voice",
+        license: true,
+        github: "https://github.com/keithdickey207/sovereign-voice",
+        open: null,
+        status: "SUPPORT",
+      },
+      {
+        name: "Command Hub (this page)",
+        role: "Single entry dashboard for the whole stack",
+        path: "~/projects/sovereign-command-hub",
+        license: true,
+        github: "https://github.com/keithdickey207/sovereign-command-hub",
+        open: "http://localhost:5090",
+        status: "LIVE",
+      },
+      {
+        name: "C2 Tactical (static)",
+        role: "HTML tactical / KVM pulse panels in home",
+        path: "~/04901_c2_tactical_engine_dashboard.html",
+        license: true,
+        github: null,
+        open: "/c2/04901_c2_tactical_engine_dashboard.html",
+        status: "LOCAL",
+      },
+      {
+        name: "Sovereign Sync tools",
+        role: "Status script, Syncthing templates, multi-device",
+        path: "~/projects/tools/sovereign-sync",
+        license: true,
+        github: "https://github.com/keithdickey207/sovereign-sync",
+        open: null,
+        status: "SUPPORT",
+      },
+    ];
+
+    function cardHTML(m) {
+      const lic = m.license
+        ? '<span class="tag ok">MIT</span>'
+        : '<span class="tag warn">NO LICENSE</span>';
+      const gh = m.github
+        ? `<a class="btn secondary" href="${m.github}" target="_blank" rel="noopener">GitHub</a>`
+        : "";
+      const open = m.open
+        ? `<a class="btn" href="${m.open}" target="_blank" rel="noopener">Open</a>`
+        : "";
+      return `
+        <article class="card">
+          <h2>${m.name}</h2>
+          <p>${m.role}</p>
+          <div class="meta">
+            ${lic}
+            <span class="tag">${m.status}</span>
+            <span class="tag">${m.path}</span>
+          </div>
+          <div class="actions">${open}${gh}</div>
+        </article>`;
+    }
+
+    document.getElementById("core-grid").innerHTML = CORE.map(cardHTML).join("");
+    document.getElementById("support-grid").innerHTML = SUPPORT.map(cardHTML).join("");
+
+    async function probePort(port) {
+      // Browser cannot true-TCP probe; use fetch with short timeout on common HTTP ports.
+      // For non-HTTP ports we mark "check shell".
+      const httpPorts = new Set([5173, 5090, 11434, 8384]);
+      if (!httpPorts.has(port)) {
+        return "shell";
+      }
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), 900);
+      try {
+        await fetch(`http://127.0.0.1:${port}/`, {
+          mode: "no-cors",
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        clearTimeout(t);
+        return "up";
+      } catch {
+        clearTimeout(t);
+        return "down";
+      }
+    }
+
+    async function refreshPorts() {
+      const box = document.getElementById("port-status");
+      const results = await Promise.all(
+        PORTS.map(async (p) => {
+          const st = await probePort(p.port);
+          return { ...p, st };
+        })
+      );
+      box.innerHTML = results
+        .map((r) => {
+          const color =
+            r.st === "up" ? "var(--green)" : r.st === "shell" ? "var(--amber)" : "var(--red)";
+          const label =
+            r.st === "up" ? "HTTP OK" : r.st === "shell" ? "use status.sh" : "down / closed";
+          return `<div class="port"><strong style="color:${color}">:${r.port}</strong>${r.label}<br/><span style="color:${color}">${label}</span></div>`;
+        })
+        .join("");
+
+      const earth = results.find((r) => r.port === 5173);
+      const hub = results.find((r) => r.port === 5090);
+      const dot = document.getElementById("hub-dot");
+      const status = document.getElementById("hub-status");
+      if (earth?.st === "up") {
+        dot.className = "dot live";
+        status.textContent = "Earth UI live · hub online";
+      } else if (hub?.st === "up") {
+        dot.className = "dot";
+        status.textContent = "Hub online · start Earth UI";
+      } else {
+        dot.className = "dot down";
+        status.textContent = "Start hub / earth scripts";
+      }
+    }
+
+    refreshPorts();
+    setInterval(refreshPorts, 8000);
+  </script>
+</body>
+</html>
