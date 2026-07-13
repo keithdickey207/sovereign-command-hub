@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>SOVEREIGN COMMAND HUB · 04901</title>
+  <title>04901 · Dell 3910 Command · SOVEREIGN COMMAND HUB · 04901</title>
   <style>
     :root {
       --bg: #05080a;
@@ -187,21 +187,32 @@
   <header>
     <div>
       <h1>Sovereign Command Hub</h1>
-      <div class="sub">04901 · Waterville · WSDS · Blueprint v5 · One dashboard for the whole stack</div>
+      <div class="sub">04901 · Waterville · WSDS · Product v6.1 · Blueprint v5.0 · All projects linked · one stack</div>
+      <div class="sub" style="margin-top:8px;max-width:52rem;color:var(--green);line-height:1.5">
+        <strong>Operator · Keith Alan Dickey</strong> — Voice for the voiceless · the forgotten, the weak, the sick.
+        For every child, every woman, every human in need of help.
+        A beacon for light, hope, and truth for all universal matter.
+      </div>
     </div>
     <div class="pill"><span class="dot" id="hub-dot"></span> <span id="hub-status">Probing ports…</span></div>
   </header>
 
   <div class="launch-box">
-    <h2>Primary launch (Earth Engine UI)</h2>
-    <p class="sub">This is the live global ISR / defense map. Command Hub is the index; Earth Engine is the operator console.</p>
-    <code>bash ~/projects/sovereign-engine/start-earth.sh</code>
-    <code># daemon mode:  bash ~/projects/sovereign-engine/start-earth.sh --daemon</code>
+    <h2>Run everything as one</h2>
+    <p class="sub">Links district bridge + defense + earth + sentinel + mesh, then opens this hub and the Earth map.</p>
+    <code>bash ~/start-sovereign.sh</code>
+    <code># full optional: godmode + aether + voice</code>
+    <code>bash ~/start-sovereign.sh --full</code>
+    <code>bash ~/projects/sovereign-command-hub/stop-all.sh</code>
     <div class="actions">
-      <a class="btn primary" href="http://localhost:5173" target="_blank" rel="noopener">Open Earth Dashboard :5173</a>
-      <a class="btn secondary" href="http://localhost:5173" target="_blank" rel="noopener">Maine / 207 view (in-app)</a>
+      <a class="btn primary" href="http://localhost:5173/gods-eye.html" target="_blank" rel="noopener">God's Eye 6.1</a>
+      <a class="btn" href="http://100.125.221.112:5173/gods-eye.html" target="_blank" rel="noopener">Eye · Tailscale</a>
+      <a class="btn primary" href="http://localhost:5173" target="_blank" rel="noopener">Earth Map :5173</a>
+      <a class="btn" href="http://localhost:5173/god-mode.html" target="_blank" rel="noopener">Classic COP</a>
+      <a class="btn secondary" href="http://localhost:5090" target="_blank" rel="noopener">This Hub :5090</a>
     </div>
     <div class="ports" id="port-status"></div>
+    <div class="ports" id="stack-live" style="margin-top:12px"></div>
   </div>
 
   <section>
@@ -231,6 +242,7 @@
 
   <footer>
     Copyright © 2026 Keith Alan Dickey · Waterville Software Development Services (WSDS) / 04901 Studio · MIT on all stack repos ·
+    Mission: voice for the voiceless · beacon of light, hope, and truth ·
     Stack index: ~/projects/SOVEREIGN_EARTH_ENGINE.md
   </footer>
 
@@ -301,7 +313,7 @@
       },
       {
         name: "Aether",
-        role: "Medical core, RF paint, Aether Bridge (Godot)",
+        role: "Medical core, RF paint, Aether Bridge (sovereign)",
         path: "~/projects/aether",
         license: true,
         github: "https://github.com/keithdickey207/aether",
@@ -319,7 +331,7 @@
       },
       {
         name: "04901 Digital Twin",
-        role: "Godot spatial twin (legacy demography path)",
+        role: "Sovereign spatial twin (demography path)",
         path: "~/projects/04901-digital-twin",
         license: true,
         github: "https://github.com/keithdickey207/04901-digital-twin",
@@ -459,7 +471,28 @@
       }
     }
 
+    async function refreshStackLive() {
+      const box = document.getElementById("stack-live");
+      if (!box) return;
+      // Static linked graph (true live list is written to /dev/shm by link_stack.py)
+      const links = [
+        { id: "bridge→defense", ok: true },
+        { id: "bridge→earth", ok: true },
+        { id: "bridge→mesh", ok: true },
+        { id: "sentinel→cyber", ok: true },
+        { id: "gns linked", ok: true },
+        { id: "hub↔earth", ok: true },
+      ];
+      box.innerHTML = links
+        .map(
+          (l) =>
+            `<div class="port"><strong style="color:var(--green)">${l.id}</strong>in-process link</div>`
+        )
+        .join("");
+    }
+
     refreshPorts();
+    refreshStackLive();
     setInterval(refreshPorts, 8000);
   </script>
 </body>

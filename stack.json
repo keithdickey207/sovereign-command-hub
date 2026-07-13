@@ -1,0 +1,190 @@
+{
+  "platform": "Sovereign Stack",
+  "version": "6.1",
+  "ui_version": "6.1",
+  "graphics_version": "6.1",
+  "bridge_version": "6.1-fast",
+  "operator": "Keith Alan Dickey \u2014 WSDS / 04901 Studio",
+  "who_i_am": "Keith Alan Dickey \u2014 founder and operator of the Sovereign stack. Voice for the voiceless.",
+  "mission_statement": "I am the voice for the voiceless \u2014 the forgotten, the weak, the sick. For every child, every woman, every human in need of help. I am a beacon for light, hope, and truth for all universal matter.",
+  "mission_short": "Voice for the voiceless \u00b7 Beacon of light, hope, and truth \u00b7 Protect life",
+  "doctrine": "DEFENSIVE / RESCUE ONLY \u2014 protect life, lift the forgotten, map danger for extract. No offensive targeting.",
+  "anchor": {
+    "lat": 44.552,
+    "lon": -69.6317,
+    "zip": "04901"
+  },
+  "license": "MIT",
+  "main_command_node": {
+    "host_id": "dell-3910-flex",
+    "node_id": "04901_command",
+    "role": "main_command_node",
+    "is_primary": true,
+    "hardware": "Dell OptiPlex 3910",
+    "host_os": "Chrome OS Flex (beta)",
+    "execution_env": "Crostini / penguin",
+    "tailscale_hostname": "penguin",
+    "tailscale_ip": "100.125.221.112",
+    "magic_dns": "penguin.tail28a28c.ts.net",
+    "authority": [
+      "code_execution",
+      "stack_updates",
+      "mesh_registry",
+      "git_orchestration",
+      "bridge_host",
+      "gods_eye_host",
+      "ollama_host"
+    ],
+    "config": "~/projects/sovereign-earth/config/command_node.json",
+    "policy": "All code execution and stack updates run on this Dell 3910 Flex node. Peers are clients/sensors/failover only."
+  },
+  "links": {
+    "command_hub": "http://localhost:5090",
+    "earth_ui": "http://localhost:5173",
+    "gods_eye": "http://localhost:5173/gods-eye.html",
+    "gods_eye_tailscale": "http://100.125.221.112:5173/gods-eye.html",
+    "bridge_ws": "ws://100.125.221.112:8765",
+    "bridge_ws_tailscale": "ws://100.125.221.112:8765",
+    "godmode": "http://localhost:8771",
+    "ollama": "http://localhost:11434",
+    "stack_shm": "/dev/shm/sovereign_stack.json",
+    "defense_shm": "/dev/shm/sovereign_defense.json",
+    "mesh_shm": "/dev/shm/sovereign_mesh",
+    "command_node_shm": "/dev/shm/sovereign_command_node.json",
+    "bridge_ws_proxy": "ws://localhost:5173/bridge",
+    "bridge_ws_tailscale_proxy": "ws://100.125.221.112:5173/bridge",
+    "bridge_health": "http://100.125.221.112:8765/health"
+  },
+  "services": [
+    {
+      "id": "ollama",
+      "name": "Ollama local LLM",
+      "role": "Cognitive / AI ops",
+      "required": false,
+      "port": 11434,
+      "path": null,
+      "start": null,
+      "check": "http://127.0.0.1:11434/api/tags",
+      "group": "foundation"
+    },
+    {
+      "id": "mesh",
+      "name": "Sovereign Mesh SHM",
+      "role": "L1 mesh bus (file queues)",
+      "required": true,
+      "port": null,
+      "path": "~/projects/sovereign-earth",
+      "start": "python_link",
+      "group": "foundation"
+    },
+    {
+      "id": "sentinel-intel",
+      "name": "04901 Sentinel cyber feed",
+      "role": "CVE \u2192 defense cyber layer",
+      "required": false,
+      "port": null,
+      "path": "~/projects/04901-sentinel",
+      "start": "once",
+      "cmd": [
+        "$PYTHON",
+        "$HOME/projects/04901-sentinel/defense_intel.py"
+      ],
+      "group": "support"
+    },
+    {
+      "id": "bridge",
+      "name": "District Bridge + Defense + Earth",
+      "role": "WS :8765 \u00b7 UDP 2368/2370/2371/2372 \u00b7 links defense + earth in-process",
+      "required": true,
+      "port": 8765,
+      "path": "~/projects/district_04901_grid",
+      "links": [
+        "sovereign-defense",
+        "sovereign-earth",
+        "04901-sentinel"
+      ],
+      "start": "earth",
+      "group": "core"
+    },
+    {
+      "id": "earth-ui",
+      "name": "Earth Engine React UI",
+      "role": "Global command map",
+      "required": true,
+      "port": 5173,
+      "path": "~/projects/sovereign-engine",
+      "start": "earth",
+      "group": "core"
+    },
+    {
+      "id": "hub",
+      "name": "Command Hub",
+      "role": "One dashboard for whole stack",
+      "required": true,
+      "port": 5090,
+      "path": "~/projects/sovereign-command-hub",
+      "start": "hub",
+      "group": "core"
+    },
+    {
+      "id": "godmode",
+      "name": "Demographic God Mode",
+      "role": "Spatial / Quest COP UI",
+      "required": false,
+      "port": 8771,
+      "path": "~/projects/sovereign-demographic-engine",
+      "start": "godmode",
+      "group": "optional"
+    },
+    {
+      "id": "aether",
+      "name": "Aether Core",
+      "role": "Medical / RF / ship brain",
+      "required": false,
+      "port": null,
+      "path": "~/projects/aether",
+      "start": "aether",
+      "group": "optional"
+    },
+    {
+      "id": "voice",
+      "name": "Sovereign Voice",
+      "role": "OVOS local voice",
+      "required": false,
+      "port": null,
+      "path": "~/sovereign_voice",
+      "start": "voice",
+      "group": "optional"
+    },
+    {
+      "id": "gns",
+      "name": "GNS Nav core",
+      "role": "Linked in-process via district bridge paths; CLI available",
+      "required": false,
+      "port": null,
+      "path": "~/open-source-galactic-flight-and-time-navigation-system-with-AI-",
+      "start": "link_only",
+      "group": "linked"
+    },
+    {
+      "id": "digital-twin",
+      "name": "04901 Digital Twin",
+      "role": "Sovereign spatial twin (manual open)",
+      "required": false,
+      "port": null,
+      "path": "~/projects/04901-digital-twin",
+      "start": "link_only",
+      "group": "linked"
+    },
+    {
+      "id": "narrative",
+      "name": "Narrative Engine",
+      "role": "Book pipeline (on demand)",
+      "required": false,
+      "port": null,
+      "path": "~/sovereign_narrative_engine",
+      "start": "link_only",
+      "group": "linked"
+    }
+  ]
+}

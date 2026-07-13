@@ -9,17 +9,37 @@
 | **License** | [MIT](LICENSE) |
 | **Operator** | Keith Alan Dickey — WSDS / 04901 Studio |
 
-## Quick start
+## Quick start — all projects as ONE
 
 ```bash
-# Hub only
+# Link + run the whole stack
+bash ~/start-sovereign.sh
+# or:
+bash ~/projects/sovereign-command-hub/start-all.sh
+
+# Optional extras (God Mode :8771, Aether, Voice)
+bash ~/start-sovereign.sh --full
+
+# Status / stop
+bash ~/start-sovereign.sh --status
+bash ~/projects/sovereign-command-hub/stop-all.sh
+```
+
+### What gets linked
+
+| Layer | Projects | How |
+|-------|----------|-----|
+| Core process | district bridge + **defense** + **earth** | In-process imports (one Python WS) |
+| UI | Earth React :5173 + this hub :5090 | Daemon processes |
+| Cyber | 04901-sentinel `defense_intel.py` | One-shot feed at start |
+| Mesh | `/dev/shm/sovereign_mesh` + stack registry | Shared memory |
+| Optional | demographic God Mode, aether, voice | `--full` |
+
+### Hub only
+
+```bash
 bash ~/projects/sovereign-command-hub/start-hub.sh
-
-# Hub + Earth Engine (bridge + React map)
 bash ~/projects/sovereign-command-hub/start-hub.sh --with-earth
-
-# Background
-bash ~/projects/sovereign-command-hub/start-hub.sh --with-earth --daemon
 ```
 
 ## What it shows
