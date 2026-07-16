@@ -186,8 +186,8 @@
 <body>
   <header>
     <div>
-      <h1>Sovereign Command Hub</h1>
-      <div class="sub">04901 · Waterville · WSDS · Product v6.1 · Blueprint v5.0 · All projects linked · one stack</div>
+      <h1>Sovereign Peer Console</h1>
+      <div class="sub">04901 · THIS NODE = peer · MAIN HUB = desktop 100.125.221.112 · engines of record on desktop</div>
       <div class="sub" style="margin-top:8px;max-width:52rem;color:var(--green);line-height:1.5">
         <strong>Operator · Keith Alan Dickey</strong> — Voice for the voiceless · the forgotten, the weak, the sick.
         For every child, every woman, every human in need of help.
@@ -198,18 +198,19 @@
   </header>
 
   <div class="launch-box">
-    <h2>Run everything as one</h2>
-    <p class="sub">Links district bridge + defense + earth + sentinel + mesh, then opens this hub and the Earth map.</p>
-    <code>bash ~/start-sovereign.sh</code>
-    <code># full optional: godmode + aether + voice</code>
-    <code>bash ~/start-sovereign.sh --full</code>
-    <code>bash ~/projects/sovereign-command-hub/stop-all.sh</code>
-    <div class="actions">
-      <a class="btn primary" href="http://localhost:5173/gods-eye.html" target="_blank" rel="noopener">God's Eye 6.1</a>
-      <a class="btn" href="http://100.125.221.112:5173/gods-eye.html" target="_blank" rel="noopener">Eye · Tailscale</a>
-      <a class="btn primary" href="http://localhost:5173" target="_blank" rel="noopener">Earth Map :5173</a>
-      <a class="btn" href="http://localhost:5173/god-mode.html" target="_blank" rel="noopener">Classic COP</a>
-      <a class="btn secondary" href="http://localhost:5090" target="_blank" rel="noopener">This Hub :5090</a>
+    <h2>Desktop is main hub — this peer uplinks</h2>
+    <p class="sub">Open engines on the DESKTOP. This machine ships presence + telemetry every ~12s via peer-uplink.</p>
+    <code>source ~/.config/sovereign/command-node.env</code>
+    <code>peer-uplink once   # or: systemctl --user status sovereign-peer-uplink</code>
+    <code>meshctl status · open http://127.0.0.1:42426/</code>
+    <div class="actions" id="launch-actions">
+      <a class="btn primary" id="lnkDefense" href="http://100.125.221.112:8787/health" target="_blank" rel="noopener">HUB Defense :8787</a>
+      <a class="btn primary" id="lnkEye" href="http://100.125.221.112:5173/gods-eye.html" target="_blank" rel="noopener">HUB Earth / Gods Eye</a>
+      <a class="btn" id="lnkQuest" href="http://100.125.221.112:5090/" target="_blank" rel="noopener">HUB Command :5090</a>
+      <a class="btn" id="lnkEarth" href="http://100.125.221.112:5173/" target="_blank" rel="noopener">HUB Earth :5173</a>
+      <a class="btn" id="lnkBridge" href="http://100.125.221.112:8765/health" target="_blank" rel="noopener">HUB Bridge :8765</a>
+      <a class="btn secondary" href="http://127.0.0.1:5090" target="_blank" rel="noopener">Local peer page :5090</a>
+      <a class="btn primary" href="http://127.0.0.1:42426/" target="_blank" rel="noopener">Peer Mesh UI :42426</a>
     </div>
     <div class="ports" id="port-status"></div>
     <div class="ports" id="stack-live" style="margin-top:12px"></div>
@@ -248,13 +249,46 @@
 
   <script>
     const PORTS = [
+      { port: 8787, label: "Gods Eye 7.1" },
       { port: 5173, label: "Earth UI" },
       { port: 8765, label: "WS Bridge" },
       { port: 5090, label: "Command Hub" },
       { port: 11434, label: "Ollama" },
       { port: 2368, label: "GNSS" },
-      { port: 2372, label: "Defense" },
+      { port: 2372, label: "Defense bus" },
     ];
+
+    // Live hub IP for Tailscale / mesh links (no stale hardcodes)
+    (async () => {
+      let hub = location.hostname && location.hostname !== "localhost"
+        ? location.hostname
+        : "127.0.0.1";
+      try {
+        const r = await fetch("http://127.0.0.1:8787/api/quest-info", { cache: "no-store" });
+        if (r.ok) {
+          const j = await r.json();
+          if (j.hub_ip) hub = j.hub_ip;
+        }
+      } catch (_) {}
+      const set = (id, path) => {
+        const el = document.getElementById(id);
+        if (el) el.href = `http://${hub}${path}`;
+      };
+      set("lnkDefense", ":8787/health");
+      set("lnkEye", ":8787/eye");
+      set("lnkQuest", ":8787/quest");
+      set("lnkEarth", ":5173/");
+      set("lnkBridge", ":8765/health");
+      // Prefer mesh-live gods_eye_defense URL if present
+      try {
+        const ml = await fetch("http://127.0.0.1:5173/mesh-live.json", { cache: "no-store" }).then((r) => r.json());
+        if (ml.urls && ml.urls.gods_eye_defense) {
+          const def = document.getElementById("lnkDefense");
+          if (def) def.href = ml.urls.gods_eye_defense;
+        }
+        if (ml.hub_ip) hub = ml.hub_ip;
+      } catch (_) {}
+    })();
 
     const CORE = [
       {
@@ -417,7 +451,7 @@
     async function probePort(port) {
       // Browser cannot true-TCP probe; use fetch with short timeout on common HTTP ports.
       // For non-HTTP ports we mark "check shell".
-      const httpPorts = new Set([5173, 5090, 11434, 8384]);
+      const httpPorts = new Set([5173, 5090, 8787, 8765, 11434, 8384]);
       if (!httpPorts.has(port)) {
         return "shell";
       }

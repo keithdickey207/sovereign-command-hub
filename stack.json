@@ -21,39 +21,33 @@
     "role": "main_command_node",
     "is_primary": true,
     "hardware": "Dell OptiPlex 3910",
-    "host_os": "Chrome OS Flex (beta)",
-    "execution_env": "Crostini / penguin",
+    "location": "desktop",
     "tailscale_hostname": "penguin",
     "tailscale_ip": "100.125.221.112",
-    "magic_dns": "penguin.tail28a28c.ts.net",
-    "authority": [
-      "code_execution",
-      "stack_updates",
-      "mesh_registry",
-      "git_orchestration",
-      "bridge_host",
-      "gods_eye_host",
-      "ollama_host"
-    ],
-    "config": "~/projects/sovereign-earth/config/command_node.json",
-    "policy": "All code execution and stack updates run on this Dell 3910 Flex node. Peers are clients/sensors/failover only."
+    "policy": "Desktop owns code execution and engines of record. Peers uplink only.",
+    "config_on_hub": "~/projects/sovereign-earth/config/command_node.json"
   },
   "links": {
-    "command_hub": "http://localhost:5090",
-    "earth_ui": "http://localhost:5173",
-    "gods_eye": "http://localhost:5173/gods-eye.html",
-    "gods_eye_tailscale": "http://100.125.221.112:5173/gods-eye.html",
-    "bridge_ws": "ws://100.125.221.112:8765",
-    "bridge_ws_tailscale": "ws://100.125.221.112:8765",
-    "godmode": "http://localhost:8771",
-    "ollama": "http://localhost:11434",
+    "command_hub": "http://100.125.221.112:5090",
+    "earth_ui": "http://100.125.221.112:5173/",
+    "gods_eye": "http://100.125.221.112:5173/gods-eye.html",
+    "gods_eye_defense": "http://100.125.221.112:8787/health",
+    "bridge_ws": "http://100.125.221.112:8765/health",
+    "bridge_health": "http://100.125.221.112:8765/health",
+    "bridge_paint": "http://100.125.221.112:8765/location_paint",
+    "mesh_bridge": "http://100.125.221.112:8767/status",
+    "ingest": "http://100.125.221.112:8787/api/ingest",
+    "gateway": "http://127.0.0.1:43000/",
+    "gw_earth": "http://127.0.0.1:43173/gods-eye.html",
+    "gw_paint": "http://127.0.0.1:48765/location_paint",
+    "gw_command": "http://127.0.0.1:45090/",
+    "peer_eye": "http://127.0.0.1:8787/a/ByvNa7wZ82b0FeR3l6Ijcs9vB9tGbVJ0/eye",
+    "peer_link": "http://127.0.0.1:8787/link-devices",
+    "peer_fabric": "http://127.0.0.1:8787/a/ByvNa7wZ82b0FeR3l6Ijcs9vB9tGbVJ0",
+    "local_mesh_ui": "http://127.0.0.1:42426/",
+    "local_command_hub": "http://127.0.0.1:5090",
     "stack_shm": "/dev/shm/sovereign_stack.json",
-    "defense_shm": "/dev/shm/sovereign_defense.json",
-    "mesh_shm": "/dev/shm/sovereign_mesh",
-    "command_node_shm": "/dev/shm/sovereign_command_node.json",
-    "bridge_ws_proxy": "ws://localhost:5173/bridge",
-    "bridge_ws_tailscale_proxy": "ws://100.125.221.112:5173/bridge",
-    "bridge_health": "http://100.125.221.112:8765/health"
+    "mesh_live": "/home/keithdickey207/shared/gods-eye/nodes/mesh-live.json"
   },
   "services": [
     {
@@ -186,5 +180,13 @@
       "start": "link_only",
       "group": "linked"
     }
-  ]
+  ],
+  "this_node": {
+    "host_id": "keithdickey207-1",
+    "role": "linux_peer_cop",
+    "is_primary": false,
+    "tailscale_ip": "100.95.99.98",
+    "uplink_to": "100.125.221.112"
+  },
+  "ui_sync": "2026-07-15T21:39:24.503771+00:00"
 }
