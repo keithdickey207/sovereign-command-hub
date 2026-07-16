@@ -1,0 +1,138 @@
+[godmode] SOVEREIGN GOD MODE online
+[godmode] local:  http://127.0.0.1:8771/
+[godmode] Quest:  http://100.115.92.26:8771/   ← open in Meta Quest Browser
+[godmode] layers: buildings · wifi heat · printers · motion · quest · agents
+[godmode] POST live sensors → /api/ingest/<kind> or /api/quest
+[godmode] 127.0.0.1 "GET / HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784229507 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /favicon.ico HTTP/1.1" 404 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784231007 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784232507 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784234007 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784235507 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784237007 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784239367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784240367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784242367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784243367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784245367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784246367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784248367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784249367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784251367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784252367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784254367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784255367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784257366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784258367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784260366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784261366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784263366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784264366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784266367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784267366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784269366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784270366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784272367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784273366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784275366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784276366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784278366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784279367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784281366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784282366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784284366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784285367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784287366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784288367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784290366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784291366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784293366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784294367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784296366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784297366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784339366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784399366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784459366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784519367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784579366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784639367 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783784699366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783785119366 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783785179366 HTTP/1.1" 200 -
+[godmode] SOVEREIGN GOD MODE online
+[godmode] local:  http://127.0.0.1:8771/
+[godmode] Quest:  http://100.115.92.26:8771/   ← open in Meta Quest Browser
+[godmode] layers: buildings · wifi heat · printers · motion · quest · agents
+[godmode] POST live sensors → /api/ingest/<kind> or /api/quest
+[godmode] SOVEREIGN GOD MODE online
+[godmode] local:  http://127.0.0.1:8771/
+[godmode] Quest:  http://100.115.92.201:8771/   ← open in Meta Quest Browser
+[godmode] layers: buildings · wifi heat · printers · motion · quest · agents
+[godmode] POST live sensors → /api/ingest/<kind> or /api/quest
+[godmode] 127.0.0.1 "GET / HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808660647 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /favicon.ico HTTP/1.1" 404 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808662149 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808663649 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808665149 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808666649 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808668149 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808669649 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808671149 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808672649 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808674149 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808675649 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808677149 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808679078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808681078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808682078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808684078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808685093 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808687078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808688078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808690084 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808691078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808693080 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808694078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808696082 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808697080 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808699078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808700079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808702078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808703082 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808705082 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808706079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808708078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808709079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808711080 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808712079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808714082 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808715078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808717079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808718078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808720099 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808721078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808723081 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808724091 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808726078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808727078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808729078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808730079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808732078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808733079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808735079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808736083 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808738078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808762083 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808822085 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808882110 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783808942079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809002079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809062079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809122078 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809182079 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809205782 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809212693 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809215080 HTTP/1.1" 200 -
+[godmode] 127.0.0.1 "GET /api/field?ts=1783809218078 HTTP/1.1" 200 -

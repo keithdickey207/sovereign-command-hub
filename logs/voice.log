@@ -1,0 +1,2 @@
+unable to get image 'ghcr.io/openvoiceos/ovos-core:stable': permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+unable to get image 'ghcr.io/openvoiceos/ovos-core:stable': permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
