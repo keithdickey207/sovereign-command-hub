@@ -28,22 +28,22 @@
     "config_on_hub": "~/projects/sovereign-earth/config/command_node.json"
   },
   "links": {
-    "command_hub": "http://100.125.221.112:5090",
-    "earth_ui": "http://100.125.221.112:5173/",
-    "gods_eye": "http://100.125.221.112:5173/gods-eye.html",
-    "gods_eye_defense": "http://100.125.221.112:8787/health",
-    "bridge_ws": "http://100.125.221.112:8765/health",
-    "bridge_health": "http://100.125.221.112:8765/health",
-    "bridge_paint": "http://100.125.221.112:8765/location_paint",
-    "mesh_bridge": "http://100.125.221.112:8767/status",
-    "ingest": "http://100.125.221.112:8787/api/ingest",
+    "command_hub": "http://100.115.92.26:5090",
+    "earth_ui": "http://100.115.92.26:5173/",
+    "gods_eye": "http://100.115.92.26:5173/gods-eye.html",
+    "gods_eye_defense": "http://100.115.92.26:8787/health",
+    "bridge_ws": "http://100.115.92.26:8765/health",
+    "bridge_health": "http://100.115.92.26:8765/health",
+    "bridge_paint": "http://100.115.92.26:8765/location_paint",
+    "mesh_bridge": "http://100.115.92.26:8767/status",
+    "ingest": "http://100.115.92.26:8787/api/ingest",
     "gateway": "http://127.0.0.1:43000/",
     "gw_earth": "http://127.0.0.1:43173/gods-eye.html",
     "gw_paint": "http://127.0.0.1:48765/location_paint",
     "gw_command": "http://127.0.0.1:45090/",
-    "peer_eye": "http://127.0.0.1:8787/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0/eye",
+    "peer_eye": "http://127.0.0.1:8787/a/ByvNa7wZ82b0FeR3l6Ijcs9vB9tGbVJ0/eye",
     "peer_link": "http://127.0.0.1:8787/link-devices",
-    "peer_fabric": "http://127.0.0.1:8787/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0",
+    "peer_fabric": "http://127.0.0.1:8787/a/ByvNa7wZ82b0FeR3l6Ijcs9vB9tGbVJ0",
     "local_mesh_ui": "http://127.0.0.1:42426/",
     "local_command_hub": "http://127.0.0.1:5090",
     "stack_shm": "/dev/shm/sovereign_stack.json",
@@ -121,6 +121,17 @@
       "group": "core"
     },
     {
+      "id": "gods-eye",
+      "name": "God's Eye Defense Node",
+      "role": "Desk mesh COP :8787",
+      "required": true,
+      "port": 8787,
+      "path": "~/projects/gods-eye-defense",
+      "start": "gods_eye",
+      "check": "http://127.0.0.1:8787/health",
+      "group": "core"
+    },
+    {
       "id": "godmode",
       "name": "Demographic God Mode",
       "role": "Spatial / Quest COP UI",
@@ -135,10 +146,11 @@
       "name": "Aether Core",
       "role": "Medical / RF / ship brain",
       "required": false,
-      "port": null,
+      "port": 42421,
       "path": "~/projects/aether",
       "start": "aether",
-      "group": "optional"
+      "group": "optional",
+      "check": "http://127.0.0.1:42421/"
     },
     {
       "id": "voice",
@@ -179,14 +191,25 @@
       "path": "~/sovereign_narrative_engine",
       "start": "link_only",
       "group": "linked"
+    },
+    {
+      "id": "digital-twin-ui",
+      "name": "04901 Twin UI",
+      "role": "District grid twin :5174",
+      "required": false,
+      "port": 5174,
+      "path": "~/projects/district_04901_grid",
+      "start": "twin",
+      "check": "http://127.0.0.1:5174/",
+      "group": "core"
     }
   ],
   "this_node": {
-    "host_id": "keithdickey207-1",
-    "role": "linux_peer_cop",
-    "is_primary": false,
-    "tailscale_ip": "100.95.99.98",
-    "uplink_to": "100.125.221.112"
+    "host_id": "penguin-crostini",
+    "role": "main_command_node",
+    "is_primary": true,
+    "lan_ip": "100.115.92.26",
+    "tailscale_ip": null
   },
-  "ui_sync": "2026-07-18T14:56:58.960399+00:00"
+  "ui_sync": "2026-07-15T21:39:24.503771+00:00"
 }
