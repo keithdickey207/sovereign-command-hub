@@ -41,9 +41,9 @@
     "gw_earth": "http://127.0.0.1:43173/gods-eye.html",
     "gw_paint": "http://127.0.0.1:48765/location_paint",
     "gw_command": "http://127.0.0.1:45090/",
-    "peer_eye": "http://127.0.0.1:8787/a/ByvNa7wZ82b0FeR3l6Ijcs9vB9tGbVJ0/eye",
+    "peer_eye": "http://127.0.0.1:8787/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0/eye",
     "peer_link": "http://127.0.0.1:8787/link-devices",
-    "peer_fabric": "http://127.0.0.1:8787/a/ByvNa7wZ82b0FeR3l6Ijcs9vB9tGbVJ0",
+    "peer_fabric": "http://127.0.0.1:8787/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0",
     "local_mesh_ui": "http://127.0.0.1:42426/",
     "local_command_hub": "http://127.0.0.1:5090",
     "stack_shm": "/dev/shm/sovereign_stack.json",
@@ -188,5 +188,5 @@
     "tailscale_ip": "100.95.99.98",
     "uplink_to": "100.125.221.112"
   },
-  "ui_sync": "2026-07-15T21:39:24.503771+00:00"
+  "ui_sync": "2026-07-18T14:56:58.960399+00:00"
 }
