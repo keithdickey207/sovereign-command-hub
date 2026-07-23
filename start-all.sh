@@ -155,14 +155,37 @@ else
   fi
 fi
 
-# --- 5. Optional services ---
+# --- 5. Optional + peer helper services (original ports only) ---
 echo ""
 echo "[5/6] Optional services"
 if [[ "$CORE_ONLY" -eq 1 ]]; then
   echo "  (skipped — --core-only)"
 else
-  # Demographic God Mode
-  if [[ "$FULL" -eq 1 ]] || [[ "${SOVEREIGN_START_GODMODE:-0}" == "1" ]]; then
+  # Always bring peer helpers up (same ports as PLATFORM_LIVE / hub docs)
+  # Mesh :8767 mirror when desktop hub mesh is offline (local UI stays :42426)
+  if port_up 8767; then
+    echo "  [●] Mesh bridge :8767"
+  elif [[ -f "${HOME_DIR}/projects/tools/sovereign-sync/peer/mesh_8767_mirror.py" ]]; then
+    start_bg mesh-8767 "$PY" "${HOME_DIR}/projects/tools/sovereign-sync/peer/mesh_8767_mirror.py"
+  fi
+
+  # WS proxy :8080 (LiDAR/UDP fusion → browser)
+  if port_up 8080; then
+    echo "  [●] WS proxy :8080"
+  elif [[ -f "${HOME_DIR}/ws-proxy.js" ]] && command -v node >/dev/null 2>&1; then
+    start_bg ws-proxy node "${HOME_DIR}/ws-proxy.js"
+  fi
+
+  # Gods Eye defense if not already (required on peer)
+  if port_up 8787; then
+    echo "  [●] Gods Eye :8787"
+  elif [[ -x "${HOME_DIR}/projects/gods-eye-defense/start.sh" ]]; then
+    bash "${HOME_DIR}/projects/gods-eye-defense/start.sh" >>"${LOG_DIR}/gods-eye-defense.log" 2>&1 || true
+    port_up 8787 && echo "  [+] Gods Eye :8787" || echo "  [!] Gods Eye failed — check defense logs"
+  fi
+
+  # Demographic God Mode :8771 — on by default for peer platform completeness
+  if [[ "$FULL" -eq 1 ]] || [[ "${SOVEREIGN_START_GODMODE:-1}" == "1" ]]; then
     if port_up 8771; then
       echo "  [=] God Mode already :8771"
     elif [[ -f "${HOME_DIR}/projects/sovereign-demographic-engine/scripts/run_godmode.py" ]]; then
@@ -172,16 +195,39 @@ else
     echo "  [·] God Mode idle (enable: --full or SOVEREIGN_START_GODMODE=1)"
   fi
 
-  # Aether
-  if [[ "$FULL" -eq 1 ]] || [[ "${SOVEREIGN_START_AETHER:-0}" == "1" ]]; then
+  # Aether protocol + HTTP bridge :42420/:42421
+  if [[ "$FULL" -eq 1 ]] || [[ "${SOVEREIGN_START_AETHER:-1}" == "1" ]]; then
     if [[ -f "${HOME_DIR}/projects/aether/aether_core_launcher.py" ]]; then
       start_bg aether "$PY" "${HOME_DIR}/projects/aether/aether_core_launcher.py" --mode full
+    fi
+    if port_up 42421; then
+      echo "  [●] Aether bridge :42421"
+    elif [[ -f "${HOME_DIR}/projects/aether/dashboard/aether_bridge/bridge_server.py" ]]; then
+      start_bg aether-bridge "$PY" "${HOME_DIR}/projects/aether/dashboard/aether_bridge/bridge_server.py"
     fi
   else
     echo "  [·] Aether idle (enable: --full)"
   fi
 
-  # Voice (docker)
+  # Digital twin UI placeholder :5174 (full Vite UI lives on hub when present)
+  if port_up 5174; then
+    echo "  [●] Twin UI :5174"
+  elif [[ -d "${HOME_DIR}/projects/04901-digital-twin" ]]; then
+    start_bg digital-twin-ui "$PY" -c "
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+import json
+ROOT = Path.home() / 'projects/04901-digital-twin'
+class H(BaseHTTPRequestHandler):
+    def do_GET(self):
+        body = json.dumps({'ok': True, 'service': '04901-digital-twin', 'path': str(ROOT)}, indent=2).encode()
+        self.send_response(200); self.send_header('Content-Type','application/json'); self.end_headers(); self.wfile.write(body)
+    def log_message(self, *a): pass
+ThreadingHTTPServer(('0.0.0.0', 5174), H).serve_forever()
+"
+  fi
+
+  # Voice (docker) — still opt-in
   if [[ "$FULL" -eq 1 ]] || [[ "${SOVEREIGN_START_VOICE:-0}" == "1" ]]; then
     if command -v docker >/dev/null 2>&1 && [[ -f "${HOME_DIR}/sovereign_voice/docker-compose.yml" ]]; then
       (cd "${HOME_DIR}/sovereign_voice" && docker compose up -d) >>"${LOG_DIR}/voice.log" 2>&1 || true
@@ -190,7 +236,21 @@ else
       echo "  [·] Voice skipped (no docker or compose)"
     fi
   else
-    echo "  [·] Voice idle (enable: --full)"
+    echo "  [·] Voice idle (enable: --full or SOVEREIGN_START_VOICE=1)"
+  fi
+
+  # Self-optimizer (Capture→Mutate→Validate→Persist) — no new ports; uses Ollama :11434
+  if [[ -x "${HOME_DIR}/projects/secure-self-healing-orchestrator/start_self_optimizer.sh" ]]; then
+    mkdir -p "${HOME_DIR}/state/self_optimizer"
+    bash "${HOME_DIR}/projects/secure-self-healing-orchestrator/start_self_optimizer.sh" status \
+      >>"${LOG_DIR}/self-optimizer.log" 2>&1 || true
+    if port_up 11434; then
+      echo "  [●] Self-optimizer ready (Ollama :11434 · feedback ~/state/self_optimizer)"
+    else
+      echo "  [·] Self-optimizer installed — Ollama :11434 down (mutations idle)"
+    fi
+  else
+    echo "  [·] Self-optimizer not found"
   fi
 fi
 

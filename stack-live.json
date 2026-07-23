@@ -1,0 +1,38 @@
+{
+  "type": "peer_console_live",
+  "ts": 1784602553.2916799,
+  "peer_host": "100.115.92.201",
+  "desktop_hub": "100.125.221.112",
+  "role": "linux_peer_cop",
+  "access_path": "/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0",
+  "peer_ports": {
+    "8787": true,
+    "8765": true,
+    "5173": true,
+    "5090": true,
+    "43000": true,
+    "42426": true,
+    "8080": false,
+    "11434": false
+  },
+  "desktop_ports": {
+    "8787": false,
+    "5173": false,
+    "8765": false,
+    "5090": false
+  },
+  "urls": {
+    "defense": "http://100.115.92.201:8787/health",
+    "map": "http://100.115.92.201:8787/map",
+    "eye": "http://100.115.92.201:8787/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0/eye",
+    "earth": "http://100.115.92.201:5173/gods-eye.html",
+    "bridge": "http://100.115.92.201:8765/health",
+    "paint": "http://100.115.92.201:8765/location_paint",
+    "sats": "http://100.115.92.201:8787/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0/quest/satellites",
+    "gateway": "http://100.115.92.201:43000/",
+    "mesh": "http://100.115.92.201:42426/",
+    "command": "http://100.115.92.201:5090/"
+  },
+  "peer_core_live": 4,
+  "ok": true
+}

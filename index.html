@@ -198,21 +198,30 @@
   </header>
 
   <div class="launch-box">
-    <h2>Desktop is main hub — this peer uplinks</h2>
-    <p class="sub">Open engines on the DESKTOP. This machine ships presence + telemetry every ~12s via peer-uplink.</p>
+    <h2>PEER COP live · same ports · desktop = engines of record when online</h2>
+    <p class="sub">
+      This peer runs defense / earth / bridge / command on the <strong>same ports</strong>.
+      ChromeOS must use Crostini IP (not 127.0.0.1). Desktop hub is probed separately.
+    </p>
     <code>source ~/.config/sovereign/command-node.env</code>
     <code>peer-uplink once   # or: systemctl --user status sovereign-peer-uplink</code>
-    <code>meshctl status · open http://127.0.0.1:42426/</code>
+    <code>bash ~/projects/sovereign-command-hub/start-all.sh --no-fetch</code>
+    <code>meshctl status · open peer mesh UI below</code>
     <div class="actions" id="launch-actions">
-      <a class="btn primary" id="lnkDefense" href="http://100.125.221.112:8787/health" target="_blank" rel="noopener">HUB Defense :8787</a>
-      <a class="btn primary" id="lnkEye" href="http://100.125.221.112:5173/gods-eye.html" target="_blank" rel="noopener">HUB Earth / Gods Eye</a>
-      <a class="btn" id="lnkQuest" href="http://100.125.221.112:5090/" target="_blank" rel="noopener">HUB Command :5090</a>
-      <a class="btn" id="lnkEarth" href="http://100.125.221.112:5173/" target="_blank" rel="noopener">HUB Earth :5173</a>
-      <a class="btn" id="lnkBridge" href="http://100.125.221.112:8765/health" target="_blank" rel="noopener">HUB Bridge :8765</a>
-      <a class="btn secondary" href="http://127.0.0.1:5090" target="_blank" rel="noopener">Local peer page :5090</a>
-      <a class="btn primary" href="http://127.0.0.1:42426/" target="_blank" rel="noopener">Peer Mesh UI :42426</a>
+      <a class="btn primary" id="lnkDefense" href="/#">PEER Defense :8787</a>
+      <a class="btn primary" id="lnkMap" href="/#">PEER Map :8787/map</a>
+      <a class="btn primary" id="lnkEye" href="/#">PEER Eye</a>
+      <a class="btn primary" id="lnkEarth" href="/#">PEER Earth :5173</a>
+      <a class="btn" id="lnkBridge" href="/#">PEER Bridge :8765</a>
+      <a class="btn" id="lnkPaint" href="/#">PEER Paint</a>
+      <a class="btn" id="lnkSats" href="/#">PEER Sat Worlds</a>
+      <a class="btn" id="lnkGate" href="/#">Gateway :43000</a>
+      <a class="btn secondary" id="lnkHubDesktop" href="http://100.125.221.112:8787/health" target="_blank" rel="noopener">DESKTOP HUB :8787</a>
+      <a class="btn secondary" href="#" id="lnkMesh" target="_blank" rel="noopener">Peer Mesh UI :42426</a>
+      <a class="btn secondary" id="lnkCmd" href="#" target="_blank" rel="noopener">This console :5090</a>
     </div>
     <div class="ports" id="port-status"></div>
+    <div class="ports" id="hub-desktop-status" style="margin-top:10px"></div>
     <div class="ports" id="stack-live" style="margin-top:12px"></div>
   </div>
 
@@ -248,47 +257,78 @@
   </footer>
 
   <script>
+    // ChromeOS: page is on Crostini IP — NEVER probe 127.0.0.1 from ChromeOS Chrome.
+    // Use location.hostname (Crostini eth0 / Tailscale) so ports hit THIS peer.
+    const PEER_HOST =
+      location.hostname && location.hostname !== "localhost" && location.hostname !== "127.0.0.1"
+        ? location.hostname
+        : "100.115.92.201";
+    const DESKTOP_HUB = "100.125.221.112";
+    let accessTok = "/a/gUv6muuqxC5iqD5qg0sr0e1Il3s6LxM0";
+
     const PORTS = [
-      { port: 8787, label: "Gods Eye 7.1" },
-      { port: 5173, label: "Earth UI" },
-      { port: 8765, label: "WS Bridge" },
-      { port: 5090, label: "Command Hub" },
-      { port: 11434, label: "Ollama" },
-      { port: 2368, label: "GNSS" },
-      { port: 2372, label: "Defense bus" },
+      { port: 8787, label: "Gods Eye Defense", path: "/health" },
+      { port: 5173, label: "Earth UI", path: "/" },
+      { port: 8765, label: "WS / Own-wire Bridge", path: "/health" },
+      { port: 5090, label: "Command Hub", path: "/" },
+      { port: 43000, label: "Hub Gateway", path: "/" },
+      { port: 42426, label: "Mesh UI", path: "/" },
+      { port: 8080, label: "WS Proxy", path: "/" },
+      { port: 11434, label: "Ollama", path: "/api/tags" },
+      { port: 2368, label: "GNSS", path: null },
+      { port: 2372, label: "Defense bus", path: null },
     ];
 
-    // Live hub IP for Tailscale / mesh links (no stale hardcodes)
-    (async () => {
-      let hub = location.hostname && location.hostname !== "localhost"
-        ? location.hostname
-        : "127.0.0.1";
+    function peerUrl(port, path) {
+      return `http://${PEER_HOST}:${port}${path || "/"}`;
+    }
+
+    async function wireLinks() {
       try {
-        const r = await fetch("http://127.0.0.1:8787/api/quest-info", { cache: "no-store" });
+        const r = await fetch(peerUrl(8787, "/api/quest-info"), { cache: "no-store" });
         if (r.ok) {
           const j = await r.json();
-          if (j.hub_ip) hub = j.hub_ip;
+          // keep PEER_HOST for local; desktop is separate
         }
       } catch (_) {}
-      const set = (id, path) => {
-        const el = document.getElementById(id);
-        if (el) el.href = `http://${hub}${path}`;
-      };
-      set("lnkDefense", ":8787/health");
-      set("lnkEye", ":8787/eye");
-      set("lnkQuest", ":8787/quest");
-      set("lnkEarth", ":5173/");
-      set("lnkBridge", ":8765/health");
-      // Prefer mesh-live gods_eye_defense URL if present
       try {
-        const ml = await fetch("http://127.0.0.1:5173/mesh-live.json", { cache: "no-store" }).then((r) => r.json());
-        if (ml.urls && ml.urls.gods_eye_defense) {
-          const def = document.getElementById("lnkDefense");
-          if (def) def.href = ml.urls.gods_eye_defense;
-        }
-        if (ml.hub_ip) hub = ml.hub_ip;
+        const r = await fetch(peerUrl(8787, "/api/access"), { cache: "no-store" });
+        // may 401 — ignore
       } catch (_) {}
-    })();
+      // token path from known local fabric if available
+      try {
+        const h = await fetch(peerUrl(8787, "/health"), { cache: "no-store" });
+        if (h.ok) { /* defense up */ }
+      } catch (_) {}
+
+      const set = (id, href) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.href = href;
+          el.target = "_blank";
+          el.rel = "noopener";
+        }
+      };
+      // PEER same-port engines (what we wire live on this machine)
+      set("lnkDefense", peerUrl(8787, "/health"));
+      set("lnkMap", peerUrl(8787, "/map"));
+      set("lnkEye", peerUrl(8787, accessTok + "/eye"));
+      set("lnkEarth", peerUrl(5173, "/gods-eye.html"));
+      set("lnkBridge", peerUrl(8765, "/health"));
+      set("lnkPaint", peerUrl(8765, "/location_paint"));
+      set("lnkSats", peerUrl(8787, accessTok + "/quest/satellites"));
+      set("lnkGate", peerUrl(43000, "/"));
+      set("lnkMesh", peerUrl(42426, "/"));
+      set("lnkCmd", peerUrl(5090, "/"));
+      set("lnkHubDesktop", `http://${DESKTOP_HUB}:8787/health`);
+
+      // Prefer live access token from defense state if public path works via map
+      try {
+        const live = await fetch(peerUrl(8787, "/api/live"), { cache: "no-store" }).then((r) => r.json());
+        // no token there — keep default
+      } catch (_) {}
+    }
+    wireLinks();
 
     const CORE = [
       {
@@ -448,17 +488,12 @@
     document.getElementById("core-grid").innerHTML = CORE.map(cardHTML).join("");
     document.getElementById("support-grid").innerHTML = SUPPORT.map(cardHTML).join("");
 
-    async function probePort(port) {
-      // Browser cannot true-TCP probe; use fetch with short timeout on common HTTP ports.
-      // For non-HTTP ports we mark "check shell".
-      const httpPorts = new Set([5173, 5090, 8787, 8765, 11434, 8384]);
-      if (!httpPorts.has(port)) {
-        return "shell";
-      }
+    async function probeUrl(url) {
       const controller = new AbortController();
-      const t = setTimeout(() => controller.abort(), 900);
+      const t = setTimeout(() => controller.abort(), 1200);
       try {
-        await fetch(`http://127.0.0.1:${port}/`, {
+        // no-cors: opaque success = TCP/HTTP reachable (handles 401 on fabric root)
+        await fetch(url, {
           mode: "no-cors",
           signal: controller.signal,
           cache: "no-store",
@@ -471,63 +506,116 @@
       }
     }
 
+    async function probePort(p) {
+      if (!p.path) return "shell";
+      // Probe THIS peer via Crostini host (ChromeOS-safe)
+      return probeUrl(peerUrl(p.port, p.path));
+    }
+
     async function refreshPorts() {
       const box = document.getElementById("port-status");
       const results = await Promise.all(
         PORTS.map(async (p) => {
-          const st = await probePort(p.port);
+          const st = await probePort(p);
           return { ...p, st };
         })
       );
-      box.innerHTML = results
-        .map((r) => {
-          const color =
-            r.st === "up" ? "var(--green)" : r.st === "shell" ? "var(--amber)" : "var(--red)";
-          const label =
-            r.st === "up" ? "HTTP OK" : r.st === "shell" ? "use status.sh" : "down / closed";
-          return `<div class="port"><strong style="color:${color}">:${r.port}</strong>${r.label}<br/><span style="color:${color}">${label}</span></div>`;
-        })
-        .join("");
+      box.innerHTML =
+        `<div class="port" style="grid-column:1/-1"><strong style="color:var(--cyan)">PEER ${PEER_HOST}</strong>same-port engines on this machine</div>` +
+        results
+          .map((r) => {
+            const color =
+              r.st === "up" ? "var(--green)" : r.st === "shell" ? "var(--amber)" : "var(--red)";
+            const label =
+              r.st === "up" ? "LIVE" : r.st === "shell" ? "use status.sh" : "down / closed";
+            return `<div class="port"><strong style="color:${color}">:${r.port}</strong>${r.label}<br/><span style="color:${color}">${label}</span></div>`;
+          })
+          .join("");
 
-      const earth = results.find((r) => r.port === 5173);
-      const hub = results.find((r) => r.port === 5090);
+      // Desktop hub probe (engines of record when Dell is awake)
+      const deskBox = document.getElementById("hub-desktop-status");
+      if (deskBox) {
+        const deskPorts = [
+          { port: 8787, path: "/health", label: "HUB Defense" },
+          { port: 5173, path: "/", label: "HUB Earth" },
+          { port: 8765, path: "/health", label: "HUB Bridge" },
+          { port: 5090, path: "/", label: "HUB Command" },
+        ];
+        const desk = await Promise.all(
+          deskPorts.map(async (p) => ({
+            ...p,
+            st: await probeUrl(`http://${DESKTOP_HUB}:${p.port}${p.path}`),
+          }))
+        );
+        deskBox.innerHTML =
+          `<div class="port" style="grid-column:1/-1"><strong style="color:var(--amber)">DESKTOP ${DESKTOP_HUB}</strong>engines of record (may sleep)</div>` +
+          desk
+            .map((r) => {
+              const color = r.st === "up" ? "var(--green)" : "var(--muted)";
+              const label = r.st === "up" ? "LIVE" : "offline / sleep";
+              return `<div class="port"><strong style="color:${color}">:${r.port}</strong>${r.label}<br/><span style="color:${color}">${label}</span></div>`;
+            })
+            .join("");
+      }
+
+      const coreUp = results.filter((r) =>
+        [8787, 5173, 8765, 5090].includes(r.port) && r.st === "up"
+      ).length;
       const dot = document.getElementById("hub-dot");
       const status = document.getElementById("hub-status");
-      if (earth?.st === "up") {
+      if (coreUp >= 3) {
         dot.className = "dot live";
-        status.textContent = "Earth UI live · hub online";
-      } else if (hub?.st === "up") {
+        status.textContent = `PEER LIVE · ${coreUp}/4 core ports · ${PEER_HOST}`;
+      } else if (coreUp >= 1) {
         dot.className = "dot";
-        status.textContent = "Hub online · start Earth UI";
+        status.textContent = `PEER partial · ${coreUp}/4 · start-all.sh`;
       } else {
         dot.className = "dot down";
-        status.textContent = "Start hub / earth scripts";
+        status.textContent = "Start peer: bash ~/projects/sovereign-command-hub/start-all.sh";
       }
     }
 
     async function refreshStackLive() {
       const box = document.getElementById("stack-live");
       if (!box) return;
-      // Static linked graph (true live list is written to /dev/shm by link_stack.py)
-      const links = [
-        { id: "bridge→defense", ok: true },
-        { id: "bridge→earth", ok: true },
-        { id: "bridge→mesh", ok: true },
-        { id: "sentinel→cyber", ok: true },
-        { id: "gns linked", ok: true },
-        { id: "hub↔earth", ok: true },
+      const checks = [
+        { id: "defense→map", url: peerUrl(8787, "/map") },
+        { id: "defense→anchors", url: peerUrl(8787, "/api/anchors") },
+        { id: "defense→sats", url: peerUrl(8787, "/api/satellite") },
+        { id: "bridge→paint", url: peerUrl(8765, "/location_paint") },
+        { id: "earth→gods-eye", url: peerUrl(5173, "/gods-eye.html") },
+        { id: "gateway→console", url: peerUrl(43000, "/") },
+        { id: "mesh→ui", url: peerUrl(42426, "/") },
+        { id: "peer-uplink", url: peerUrl(5090, "/") },
       ];
-      box.innerHTML = links
-        .map(
-          (l) =>
-            `<div class="port"><strong style="color:var(--green)">${l.id}</strong>in-process link</div>`
-        )
+      const out = await Promise.all(
+        checks.map(async (c) => ({ ...c, st: await probeUrl(c.url) }))
+      );
+      box.innerHTML = out
+        .map((l) => {
+          const color = l.st === "up" ? "var(--green)" : "var(--red)";
+          return `<div class="port"><strong style="color:${color}">${l.id}</strong>${l.st === "up" ? "LIVE wire" : "down"}</div>`;
+        })
         .join("");
     }
 
-    refreshPorts();
-    refreshStackLive();
-    setInterval(refreshPorts, 8000);
+    // Load fabric token path for eye/sat buttons when possible
+    (async () => {
+      try {
+        // try common token from health cookie flow — optional
+        const r = await fetch(peerUrl(8787, "/health"), { cache: "no-store" });
+        if (r.ok) {
+          // leave default accessTok; map/eye work with token path
+        }
+      } catch (_) {}
+      await wireLinks();
+      refreshPorts();
+      refreshStackLive();
+    })();
+    setInterval(() => {
+      refreshPorts();
+      refreshStackLive();
+    }, 8000);
   </script>
 </body>
 </html>
